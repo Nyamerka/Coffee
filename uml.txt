@@ -1,0 +1,147 @@
+@startuml
+
+class Roles {
+    +id: int
+    +name: string
+}
+
+class Testimonials {
+    +id: int
+    +name: string
+    +profession: string
+    +comment: string
+    +rating: int
+    +image: string
+}
+
+class Promo {
+    +id: int
+    +name: string
+    +description: string
+    +discount: int
+}
+
+class Categories {
+    +id: int
+    +name: string
+}
+
+class TransactionStatus {
+    +id: int
+    +name: string
+}
+
+class Users {
+    +id: int
+    +email: string
+    +password: string
+    +role_id: int
+}
+
+class OrderTypes {
+    +id: int
+    +name: string
+    +add_price: int
+}
+
+class Products {
+    +id: int
+    +title: string
+    +description: string
+    +price: int
+    +stock: int
+    +user_id: int
+}
+
+class ProductImages {
+    +id: int
+    +image: string
+    +product_id: int
+}
+
+class CategoryProducts {
+    +id: int
+    +category_id: int
+    +product_id: int
+}
+
+class Profile {
+    +id: int
+    +full_name: string
+    +phone_number: string
+    +address: string
+    +image: string
+    +user_id: int
+}
+
+class ProductOrderTypes {
+    +id: int
+    +product_id: int
+    +order_type_id: int
+}
+
+class ProductSizes {
+    +id: int
+    +name: string
+    +add_price: int
+    +product_id: int
+}
+
+class ProductVariants {
+    +id: int
+    +name: string
+    +add_price: int
+    +stock: int
+    +product_id: int
+}
+
+class TransactionDetails {
+    +id: int
+    +quantity: int
+    +product_id: int
+    +variant_id: int
+    +product_size_id: int
+}
+
+class Carts {
+    +id: int
+    +transaction_detail_id: int
+    +quantity: int
+    +variant_id: int
+    +sizes_id: int
+    +product_id: int
+    +user_id: int
+}
+
+class Transactions {
+    +id: int
+    +no_order: int
+    +add_full_name: string
+    +add_email: string
+    +add_address: string
+    +payment: string
+    +user_id: int
+    +transaction_detail_id: int
+    +order_type_id: int
+    +transaction_status_id: int
+}
+
+Roles "1" -- "0..*" Users : has
+Users "1" -- "0..1" Profile : has
+Categories "1" -- "0..*" CategoryProducts : contains
+Products "1" -- "0..*" CategoryProducts : belongs to
+Products "1" -- "0..*" ProductImages : has
+Products "1" -- "0..*" ProductVariants : has
+Products "1" -- "0..*" ProductSizes : has
+Products "1" -- "0..*" ProductOrderTypes : has
+ProductVariants "1" -- "0..*" TransactionDetails : has
+ProductSizes "1" -- "0..*" TransactionDetails : has
+Transactions "1" -- "0..*" TransactionDetails : contains
+TransactionDetails "1" -- "0..*" Carts : has
+Users "1" -- "0..*" Carts : owns
+OrderTypes "1" -- "0..*" ProductOrderTypes : has
+TransactionStatus "1" -- "0..*" Transactions : has
+Promo "1" -- "0..*" Products : applies to
+Testimonials "0..*" -- "0..1" Products : references
+
+@enduml
